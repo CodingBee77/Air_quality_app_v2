@@ -16,29 +16,25 @@ export default {
     const loading = ref(true);
     const error = ref(null);
 
-    function fetchData() {
-      return fetch("http://localhost:5000/users", {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            console.log("Error downloading ");
-            throw new Error(res.statusText);
-          }
-          console.log(res);
-
-          return res.json();
-        })
-        .then((json) => {
-          console.log(json);
-        })
-        .catch((error) => {
-          console.log(error);
+    async function fetchData() {
+      try {
+        const res=await fetch("http://localhost:5000/users", {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
         });
+        if(!res.ok) {
+          console.log("Error downloading ");
+          throw new Error(res.statusText);
+        }
+        console.log(res);
+        const json=await res.json();
+        console.log(json);
+      } catch(error) {
+        console.log(error);
+      }
     }
 
     onMounted(() => {
