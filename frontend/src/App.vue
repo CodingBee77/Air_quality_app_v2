@@ -57,7 +57,7 @@
 
 
 <script>
-import Title from "./components/Title.vue";
+import Title from "./components/app-title.vue";
 export default {
   data: () => ({
     drawer: null,
