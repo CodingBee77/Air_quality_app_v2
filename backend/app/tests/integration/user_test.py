@@ -1,6 +1,5 @@
 from unittest import mock
 import pytest
-import json
 
 from app.repositories.user_repository import UserRepository
 from app.main import app

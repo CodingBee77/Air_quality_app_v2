@@ -1,5 +1,27 @@
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
+
+
+class CurrentMeasurement(BaseModel):
+    from_date: str
+    till_date: str
+    values: List[dict]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class ItemBase(BaseModel):
