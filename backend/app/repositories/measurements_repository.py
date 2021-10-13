@@ -13,6 +13,7 @@ class MeasurementRepository:
             "https://airapi.airly.eu/v2/measurements/nearest?lat=" +
             str(lat) + "&lng=" + str(long) + "&maxDistanceKM=2&maxResults=1",
             headers={'apikey': settings.AIRLY_API_KEY})
+        print(api_request)
         current_measurement = ObjectMapper.map_current_measurement(api_request)
         return current_measurement
 

@@ -1,13 +1,13 @@
 <template>
   <v-row>
     <v-col cols="4">
-      <city-overview-card :measurement="measurements[0]" />
+      <city-overview-card :lat="'50.062006'" :long="'19.940984'" :cityName="'Cracow'" />
     </v-col>
     <v-col cols="4">
-      <city-overview-card :measurement="measurements[1]" />
+      <city-overview-card :lat="'51.920932'" :long="'4.486443'" :cityName="'Rotterdam'"  />
     </v-col>
     <v-col cols="4">
-      <city-overview-card :measurement="measurements[2]" />
+      <city-overview-card :lat="'41.891570'" :long="'12.492587'" :cityName="'Rome'"  />
     </v-col>
   </v-row>
 </template>
@@ -31,33 +31,46 @@
 </style>
 
 <script>
+import axios from "axios";
 import cityOverviewCard from "../components/city-overview-card.vue";
+
+const lat = "50.062006";
+const long = "19.940984";
 
 export default {
   components: { cityOverviewCard },
   data() {
     return {
-      measurements: [
-        {
-          id: 1,
-          city: "Rotterdam",
-          measurements: { PM1: 2, PM25: 18, PM10: 35, PRESSURE: 1043 },
-          airly_caqi: 34,
-        },
-        {
-          id: 2,
-          city: "Cracow",
-          measurements: { PM1: 2, PM25: 18, PM10: 35, PRESSURE: 1043 },
-          airly_caqi: 34,
-        },
-        {
-          id: 3,
-          city: "Rome",
-          measurements: { PM1: 2, PM25: 18, PM10: 35, PRESSURE: 1043 },
-          airly_caqi: 34,
-        },
-      ],
+      measurements: [],
     };
   },
+  async created() {
+    // try {
+    //   const response = await axios.get(
+    //     "http://localhost:5000/api/v1/measurements/current/?lat=" +
+    //       lat +
+    //       "&long=" +
+    //       long
+    //   );
+    //   this.measurements[0] = response.data;
+    //   console.log(this.measurements);
+    // } catch (e) {
+    //   console.error(e);
+    // }
+
+    // await this.loadMeasurement();
+  },
+  // methods: {
+  //   async loadMeasurement() {
+  //     const response = await axios.get(
+  //       "http://localhost:5000/api/v1/measurements/current/?lat=" +
+  //         lat +
+  //         "&long=" +
+  //         long
+  //     );
+
+  //     this.measurements[0] = response.data;
+  //   },
+  // },
 };
 </script>

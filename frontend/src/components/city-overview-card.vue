@@ -1,24 +1,25 @@
 <template>
+  <!--  -->
   <v-card class="full-height d-flex flex-column" elevation="10" outlined>
-    <v-card-title class="justify-center">{{
-      clonedMeasurement.city
-    }}</v-card-title>
+    <v-card-title class="justify-center">{{ cityName }}</v-card-title>
     <v-card-text class="pa-8 d-flex flex-column text-left">
-      Air quality data: {{ clonedMeasurement.measurements }}
+      <b>Air quality data:</b>
+      <br><br>
+      <p>{{ measurements.values }}</p>
     </v-card-text>
     <v-spacer></v-spacer>
-
-    <v-card-actions>
+    
+    <!-- <v-card-actions>
       <router-link
-        :to="{ name: 'Detail', params: { city: clonedMeasurement.city } }"
+        :to="{ name: 'Detail', params: { measurements } }"
         tag="button"
         class="link card-footer-item"
       >
         <i class="fas fa-check"></i>
         <span>More</span>
       </router-link>
-      <!-- <v-btn color="primary" outlined text :to="{ name: 'detail', params: { id: hero.id } }"> More </v-btn> -->
-    </v-card-actions>
+
+    </v-card-actions> -->
   </v-card>
 </template>
 
@@ -40,16 +41,42 @@
 </style>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "CityCard",
   props: {
-    measurement: {
-      type: Object,
-      default: () => {},
+    lat: {
+      type: String,
     },
+    long: {
+      type: String,
+    },
+    cityName: {
+      type: String,
+    },
+    // measurements: {
+    //   type: Object,
+    //   default: () => {},
+    // },
+  },
+  async mounted() {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/measurements/current/?lat=" +
+          this.lat +
+          "&long=" +
+          this.long
+      );
+      this.measurements = response.data;
+      console.log(this.measurements);
+    } catch (e) {
+      console.error(e);
+    }
   },
   data() {
     return {
+      measurements: {},
       clonedMeasurement: { ...this.measurement },
     };
   },
