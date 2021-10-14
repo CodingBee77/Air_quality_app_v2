@@ -15,10 +15,10 @@ const routes = [
     component: Main
   },
   {
-    path: '/details/:city',
+    path: '/details',
     name: 'Detail',
     component: Detail,
-    props: r => ({city: r.params.city}),
+    props: true,
   },
   {
     path: '/checkair',

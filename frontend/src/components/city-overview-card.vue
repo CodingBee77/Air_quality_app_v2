@@ -4,22 +4,25 @@
     <v-card-title class="justify-center">{{ cityName }}</v-card-title>
     <v-card-text class="pa-8 d-flex flex-column text-left">
       <b>Air quality data:</b>
-      <br><br>
+      <br /><br />
       <p>{{ measurements.values }}</p>
     </v-card-text>
-    <v-spacer></v-spacer>
-    
-    <!-- <v-card-actions>
-      <router-link
-        :to="{ name: 'Detail', params: { measurements } }"
-        tag="button"
-        class="link card-footer-item"
-      >
-        <i class="fas fa-check"></i>
-        <span>More</span>
-      </router-link>
 
-    </v-card-actions> -->
+    <v-spacer></v-spacer>
+    <v-card-actions>
+      <router-link
+        :to="{
+          name: 'Detail',
+          params: { lat: lat, long: long, cityName: cityName },
+        }"
+        tag="button"
+        class="card-actions"
+      >
+        <v-col class="text-right">
+          <v-btn elevation="10">Explore</v-btn>
+        </v-col>
+      </router-link>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -37,6 +40,10 @@
     rgba(195, 214, 214, 1) 100%
   );
   text-align: center;
+}
+.card-actions {
+  position: relative;
+  bottom: 0;
 }
 </style>
 
@@ -77,7 +84,7 @@ export default {
   data() {
     return {
       measurements: {},
-      clonedMeasurement: { ...this.measurement },
+      clonedMeasurement: { ...this.measurements },
     };
   },
 };
