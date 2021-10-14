@@ -7,7 +7,7 @@
       <city-overview-card :lat="'51.920932'" :long="'4.486443'" :cityName="'Rotterdam'"  />
     </v-col>
     <v-col cols="4">
-      <city-overview-card :lat="'41.891570'" :long="'12.492587'" :cityName="'Rome'"  />
+      <city-overview-card :lat="'41.906551'" :long="'12.453617'" :cityName="'Rome'"  />
     </v-col>
   </v-row>
 </template>
@@ -33,9 +33,6 @@
 <script>
 import axios from "axios";
 import cityOverviewCard from "../components/city-overview-card.vue";
-
-const lat = "50.062006";
-const long = "19.940984";
 
 export default {
   components: { cityOverviewCard },
