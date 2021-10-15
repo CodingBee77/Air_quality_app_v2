@@ -1,4 +1,4 @@
-from app.models import CurrentMeasurement, HistoricMeasurement
+from app.models import CurrentMeasurement, ChartMeasurement
 from app.mappers.obj_mapper import ObjectMapper
 import requests
 from app.config import settings
@@ -25,12 +25,12 @@ class MeasurementRepository:
         return current_measurement
 
 
-    def get_historic_measurement_by_coordinates(self, lat: float, long: float) -> HistoricMeasurement:
+    def get_chart_measurement_by_coordinates(self, lat: float, long: float) -> ChartMeasurement:
         api_request = requests.get(
             "https://airapi.airly.eu/v2/measurements/nearest?lat=" +
             str(lat) + "&lng=" + str(long) + "&maxDistanceKM=2&maxResults=1",
             headers={'apikey': settings.AIRLY_API_KEY})
         # print(api_request)
         mapper = ObjectMapper()
-        historic_measurement = mapper.map_historic_measurement(response=api_request)
+        historic_measurement = mapper.map_chart_measurement(response=api_request)
         return historic_measurement
