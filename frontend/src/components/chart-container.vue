@@ -31,7 +31,7 @@ export default {
     this.loaded = false;
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/measurements/history/?lat=" +
+        "api/v1/measurements/history/?lat=" +
           this.lat +
           "&long=" +
           this.long

@@ -31,7 +31,6 @@
 </style>
 
 <script>
-import axios from "axios";
 import cityOverviewCard from "../components/city-overview-card.vue";
 
 export default {
