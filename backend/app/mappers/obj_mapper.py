@@ -1,4 +1,4 @@
-from app.models import CurrentMeasurement, HistoricMeasurement, HistoricMeasurementIndex
+from app.models import CurrentMeasurement, ChartMeasurement
 import json
 
 
@@ -14,12 +14,12 @@ class ObjectMapper:
 
         return current_measurement
 
-    def map_historic_measurement(self, response: json) -> HistoricMeasurement:
+    def map_chart_measurement(self, response: json) -> ChartMeasurement:
         historic_measurement = None
         try:
             api = json.loads(response.content)
             labels, data = self._convert_data_for_chart(api)
-            historic_measurement = HistoricMeasurement(
+            historic_measurement = ChartMeasurement(
                 labels=labels, datasets=data)
 
         except Exception as e:
@@ -52,14 +52,14 @@ class ObjectMapper:
                 self._append_index_values_to_dict(
                     index_object, index_name, history_dict)
 
-        historic_measurement_index_PM1 = HistoricMeasurementIndex(
+        chart_measurement_index_PM1 = ChartMeasurement(
             label=index_PM1["label"], backgroundColor="#AF09EB74", data=index_PM1["data"])
-        historic_measurement_index_PM10 = HistoricMeasurementIndex(
+        chart_measurement_index_PM10 = ChartMeasurement(
             label=index_PM10["label"], backgroundColor="#09EB4C74", data=index_PM10["data"])
-        historic_measurement_index_PM25 = HistoricMeasurementIndex(
+        chart_measurement_index_PM25 = ChartMeasurement(
             label=index_PM25["label"], backgroundColor="#EB9A0985", data=index_PM25["data"])
 
-        for measurement_index in (historic_measurement_index_PM1, historic_measurement_index_PM10, historic_measurement_index_PM25):
+        for measurement_index in (chart_measurement_index_PM1, chart_measurement_index_PM10, chart_measurement_index_PM25):
             datasets.append(measurement_index)
 
         return labels, datasets
