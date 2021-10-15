@@ -8,7 +8,7 @@ class CurrentMeasurement(BaseModel):
     values: List[dict]
 
 
-class HistoricMeasurementIndex(BaseModel):
+class ChartMeasurement(BaseModel):
     label: str
     backgroundColor: str
     data: List[float]
@@ -16,4 +16,4 @@ class HistoricMeasurementIndex(BaseModel):
 
 class HistoricMeasurement(BaseModel):
     labels: List[str]
-    datasets: List[HistoricMeasurementIndex]
+    datasets: List[ChartMeasurement]
