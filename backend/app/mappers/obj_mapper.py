@@ -1,5 +1,6 @@
-from app.models import CurrentMeasurement, ChartMeasurement
+from app.models import CurrentMeasurement, ChartMeasurement, HistoricMeasurement
 import json
+from typing import Tuple
 
 
 class ObjectMapper:
@@ -14,12 +15,12 @@ class ObjectMapper:
 
         return current_measurement
 
-    def map_chart_measurement(self, response: json) -> ChartMeasurement:
+    def map_chart_measurement(self, response: json) -> HistoricMeasurement:
         historic_measurement = None
         try:
             api = json.loads(response.content)
             labels, data = self._convert_data_for_chart(api)
-            historic_measurement = ChartMeasurement(
+            historic_measurement = HistoricMeasurement(
                 labels=labels, datasets=data)
 
         except Exception as e:
@@ -27,7 +28,7 @@ class ObjectMapper:
 
         return historic_measurement
 
-    def _get_index_value(self, index_name, values_list):
+    def _get_index_value(self, index_name, values_list)-> float:
         """Return value for PM1 or PM10 or PM25"""
         index_value = [element["value"]
                        for element in values_list if element["name"] == index_name]
@@ -36,7 +37,7 @@ class ObjectMapper:
     def _append_index_values_to_dict(self, index_object, index_name, history_dict):
         return index_object["data"].append(self._get_index_value(index_name=index_name, values_list=history_dict["values"]))
 
-    def _convert_data_for_chart(self, api_response):
+    def _convert_data_for_chart(self, api_response)-> Tuple[list, list]:
         labels = []
         datasets = []
 
