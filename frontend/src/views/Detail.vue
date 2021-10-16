@@ -5,7 +5,7 @@
         <v-spacer>
           <v-card class="pa-0" outlined tile>
             <div>
-              <chart-container-vue
+              <chart-history-container
                 :lat="this.lat"
                 :long="this.long"
                 :cityName="this.cityName"
@@ -15,16 +15,24 @@
         </v-spacer>
       </v-row>
 
-      <v-row dense>
+      <v-row>
         <v-col v-for="n in 6" :key="n" cols="sm">
           <v-card class="pa-16" outlined tile raised> col </v-card>
         </v-col>
       </v-row>
 
-      <v-row dense style="height: 240px">
+      <v-row style="height: 500px">
         <v-spacer>
-          <v-col cols="12">
-            <v-card class="pa-16" outlined tile> Column </v-card>
+          <v-col>
+            <v-card height="450px" outlined tile>
+              <div>
+                <chart-forecast-container
+                  :lat="this.lat"
+                  :long="this.long"
+                  :cityName="this.cityName"
+                />
+              </div>
+            </v-card>
           </v-col>
         </v-spacer>
       </v-row>
@@ -46,10 +54,11 @@
 </style>
 
 <script>
-import chartContainerVue from "../components/chart-container.vue";
+import chartHistoryContainer from "../components/history-chart-container.vue";
+import chartForecastContainer from "../components/forecast-chart-container.vue";
 
 export default {
-  components: { chartContainerVue },
+  components: { chartHistoryContainer, chartForecastContainer },
   name: "Detail",
   props: {
     lat: {
