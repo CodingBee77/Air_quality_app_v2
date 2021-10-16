@@ -17,3 +17,18 @@ class ChartMeasurement(BaseModel):
 class HistoricMeasurement(BaseModel):
     labels: List[str]
     datasets: List[ChartMeasurement]
+
+
+class StandardFactorMeasurement(BaseModel):
+    organization_name: str
+    pollutant: str
+    limit: float
+    percent: float
+    averaging: str
+
+
+class StandardFactors:
+    factors: List[StandardFactorMeasurement]
+
+
+
