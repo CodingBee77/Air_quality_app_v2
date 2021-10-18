@@ -53,7 +53,7 @@ async def get_forecast_measurement_by_coordinates(lat: float, long: float):
 async def get_standards_by_coordinates(lat: float, long: float):
     measurements_repository = MeasurementRepository()
     standard_factors = measurements_repository.get_standards_by_coordinates(
-        lat, long, data_type="standards")
+        lat, long)
     if standard_factors is None:
         raise HTTPException(
             status_code=404, detail="Standards not found")
