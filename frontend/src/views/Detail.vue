@@ -16,9 +16,16 @@
       </v-row>
 
       <v-row>
-        <v-col v-for="n in 6" :key="n" cols="sm">
-          <v-card class="pa-16" outlined tile raised> col </v-card>
-        </v-col>
+        <standard-card
+          :lat="this.lat"
+          :long="this.long"
+          :cityName="this.cityName"
+        />
+        <!-- <v-col v-for="n in 6" :key="n" cols="sm">
+          <v-card class="pa-16" outlined tile raised> 
+            Col
+             </v-card> -->
+        <!-- </v-col> -->
       </v-row>
 
       <v-row style="height: 500px">
@@ -56,9 +63,10 @@
 <script>
 import chartHistoryContainer from "../components/history-chart-container.vue";
 import chartForecastContainer from "../components/forecast-chart-container.vue";
+import standardCard from "../components/standard-card.vue";
 
 export default {
-  components: { chartHistoryContainer, chartForecastContainer },
+  components: { chartHistoryContainer, chartForecastContainer, standardCard },
   name: "Detail",
   props: {
     lat: {
