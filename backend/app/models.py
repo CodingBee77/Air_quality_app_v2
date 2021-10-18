@@ -24,11 +24,7 @@ class StandardFactorMeasurement(BaseModel):
     pollutant: str
     limit: float
     percent: float
-    averaging: str
 
 
-class StandardFactors:
+class StandardFactors(BaseModel):
     factors: List[StandardFactorMeasurement]
-
-
-
