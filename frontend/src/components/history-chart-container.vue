@@ -47,6 +47,7 @@ export default {
       title: {
         display: true,
         text: "History air quality data - 1 DAY",
+        fontSize: 16
       },
       tooltips: {
         callbacks: {

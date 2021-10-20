@@ -47,6 +47,7 @@ export default {
       title: {
         display: true,
         text: "Forecasted air quality data for the next day.",
+        fontSize: 16
       },
       tooltips: {
         callbacks: {
