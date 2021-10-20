@@ -3,6 +3,8 @@ import json
 from typing import Tuple
 
 
+IGNORED_INDEXES = ("PRESSURE", "HUMIDITY", "TEMPERATURE")
+
 class ObjectMapper:
     def map_current_measurement(self, response: json) -> CurrentMeasurement:
         current_measurement = None
@@ -57,39 +59,45 @@ class ObjectMapper:
 
         return response_dict
 
-    def _get_index_value(self, index_name: str, values_list: list) -> float:
-        """Return value for PM1 or PM10 or PM25"""
-        index_value = [element["value"]
-                       for element in values_list if element["name"] == index_name]
-        return index_value[0]
+    def _create_index_dict(self, values_object):
+        index_dicts = {}
+        for elem in values_object:
+            index_name = elem.get("name")
+            if index_name in IGNORED_INDEXES:
+                continue 
+            index_dict = { "label": index_name, "data": []}
+            index_dicts[index_name] = index_dict
 
-    def _append_index_values_to_dict(self, index_object: dict, index_name: str, history_dict: dict) -> dict:
-        return index_object["data"].append(self._get_index_value(index_name=index_name, values_list=history_dict["values"]))
+        return index_dicts
+
+    # def _get_index_value(self, index_name: str, values_list: list) -> float:
+    #     """Return value for PM1 or PM10 or PM25"""
+    #     index_value = [element["value"]
+    #                    for element in values_list if element["name"] == index_name]
+    #     return index_value[0]
+
+    # def _append_index_values_to_dict(self, index_object: dict, index_name: str, history_dict: dict) -> dict:
+    #     return index_object["data"].append(self._get_index_value(index_name=index_name, values_list=history_dict["values"]))
 
     def _convert_data_for_chart(self, api_response: dict, data_type: str) -> Tuple[list, list]:
         labels = []
         datasets = []
-
-        # TODO: refactor code to remove hardcoded indexes: it also remove issue with drawing forecast data chart
-        index_PM1 = {'label': "PM1", 'data': []}
-        index_PM10 = {'label': "PM10", 'data': []}
-        index_PM25 = {'label': "PM25", 'data': []}
+        color_list = ["#51B8A9A8", "#e28743A8", "#25b836A8", "#1aadbaA8","#1a1abaA8"]
+        indexes_map = self._create_index_dict(api_response.get(data_type)[0]["values"])
+        
 
         for elem in api_response.get(data_type):
             dt_obj_converted = elem["fromDateTime"][:16].replace("T", " ")
             labels.append(dt_obj_converted)
-            for (index_object, index_name, history_dict) in [(index_PM1, "PM1", elem), (index_PM10, "PM10", elem), (index_PM25, "PM25", elem)]:
-                self._append_index_values_to_dict(
-                    index_object, index_name, history_dict)
+            for hist_value in elem["values"]:
+                if hist_value["name"] in IGNORED_INDEXES:
+                    continue
+                indexes_map[hist_value["name"]]["data"].append(hist_value["value"])
 
-        chart_measurement_index_PM1 = ChartMeasurement(
-            label=index_PM1["label"], backgroundColor="#AF09EB74", data=index_PM1["data"])
-        chart_measurement_index_PM10 = ChartMeasurement(
-            label=index_PM10["label"], backgroundColor="#09EB4C74", data=index_PM10["data"])
-        chart_measurement_index_PM25 = ChartMeasurement(
-            label=index_PM25["label"], backgroundColor="#EB9A0985", data=index_PM25["data"])
+        set_color = 0
+        for key, value in indexes_map.items():
+            datasets.append(ChartMeasurement(label=key, backgroundColor=color_list[set_color], data= value["data"]))
+            set_color += 1
 
-        for measurement_index in (chart_measurement_index_PM1, chart_measurement_index_PM10, chart_measurement_index_PM25):
-            datasets.append(measurement_index)
 
         return labels, datasets

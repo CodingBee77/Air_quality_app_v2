@@ -126,3 +126,4 @@
 **/*.njsproj
 **/*.sln
 **/*.sw?
+backend/app/config.py
