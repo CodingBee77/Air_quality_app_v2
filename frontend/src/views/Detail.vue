@@ -1,6 +1,15 @@
 <template>
   <h1 class="pt-0">
     <v-container class="blue lighten-5">
+      <div class="text-center">Standards</div>
+
+      <v-row>
+        <standard-card
+          :lat="this.lat"
+          :long="this.long"
+          :cityName="this.cityName"
+        />
+      </v-row>
       <v-row dense>
         <v-spacer>
           <v-card class="pa-0" outlined tile>
@@ -13,19 +22,6 @@
             </div>
           </v-card>
         </v-spacer>
-      </v-row>
-
-      <v-row>
-        <standard-card
-          :lat="this.lat"
-          :long="this.long"
-          :cityName="this.cityName"
-        />
-        <!-- <v-col v-for="n in 6" :key="n" cols="sm">
-          <v-card class="pa-16" outlined tile raised> 
-            Col
-             </v-card> -->
-        <!-- </v-col> -->
       </v-row>
 
       <v-row style="height: 500px">
