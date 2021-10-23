@@ -40,33 +40,5 @@ export default {
       measurements: [],
     };
   },
-  async created() {
-    // try {
-    //   const response = await axios.get(
-    //     "http://localhost:5000/api/v1/measurements/current/?lat=" +
-    //       lat +
-    //       "&long=" +
-    //       long
-    //   );
-    //   this.measurements[0] = response.data;
-    //   console.log(this.measurements);
-    // } catch (e) {
-    //   console.error(e);
-    // }
-
-    // await this.loadMeasurement();
-  },
-  // methods: {
-  //   async loadMeasurement() {
-  //     const response = await axios.get(
-  //       "http://localhost:5000/api/v1/measurements/current/?lat=" +
-  //         lat +
-  //         "&long=" +
-  //         long
-  //     );
-
-  //     this.measurements[0] = response.data;
-  //   },
-  // },
 };
 </script>
