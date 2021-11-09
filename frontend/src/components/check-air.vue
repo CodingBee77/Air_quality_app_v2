@@ -18,7 +18,7 @@
       @blur="$v.longitude.$touch()"
     ></v-text-field>
 
-    <v-btn class="mr-4" @click="submit"> submit </v-btn>
+    <v-btn class="mr-4" @click="validate"> submit </v-btn>
     <v-btn @click="clear"> clear </v-btn>
   </form>
 </template>
@@ -31,6 +31,7 @@ import {
   minValue,
   decimal,
 } from "vuelidate/lib/validators";
+import axios from "axios";
 
 export default {
   name: "formValidation",
@@ -83,8 +84,23 @@ export default {
     },
   },
   methods: {
-    submit() {
+    async validate() {
       this.$v.$touch();
+      if (!this.$v.$invalid) {
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/api/v1/measurements/current/?lat=" +
+              this.lattitude +
+              "&long=" +
+              this.longitude
+          );
+          
+          this.measurements = response.data;
+          this.$emit('measurements', this.measurements);
+        } catch (e) {
+          console.error(e);
+        }
+      }
     },
     clear() {
       this.$v.$reset();
@@ -92,6 +108,8 @@ export default {
       this.longitude = "";
     },
   },
+  props: {
+    currentmeasurement: Object},
 };
 </script>
 
