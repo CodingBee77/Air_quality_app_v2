@@ -26,8 +26,8 @@ async def get_current_measurement_by_coordinates(lat: float, long: float):
     #     raise HTTPException(status_code=404, detail="Measurements not found")
     # return current_measurements
 
-#TODO: create 1 endpoint to extract chart historic and forecast chart data
-@router.get('/api/v1/measurements/history/', response_model=models.HistoricMeasurement)
+
+@router.get('/api/v1/measurements/history/', response_model=models.ChartMeasurement)
 async def get_history_measurement_by_coordinates(lat: float, long: float):
     measurements_repository = MeasurementRepository()
     historic_measurements = measurements_repository.get_chart_measurement_by_coordinates(
@@ -38,7 +38,7 @@ async def get_history_measurement_by_coordinates(lat: float, long: float):
     return historic_measurements
 
 
-@router.get('/api/v1/measurements/forecast/', response_model=models.HistoricMeasurement)
+@router.get('/api/v1/measurements/forecast/', response_model=models.ChartMeasurement)
 async def get_forecast_measurement_by_coordinates(lat: float, long: float):
     measurements_repository = MeasurementRepository()
     forecast_measurements = measurements_repository.get_chart_measurement_by_coordinates(

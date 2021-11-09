@@ -1,4 +1,4 @@
-from app.models import CurrentMeasurement, ChartMeasurement, HistoricMeasurement, StandardFactorMeasurement, StandardFactors
+from app.models import CurrentMeasurement, IndexMeasurement, ChartMeasurement, StandardFactorMeasurement, StandardFactors
 import json
 from typing import Tuple
 
@@ -18,20 +18,20 @@ class ObjectMapper:
 
         return current_measurement
 
-    def map_chart_measurement(self, response: json, data_type: str) -> HistoricMeasurement:
-        historic_measurement = None
+    def map_chart_measurement(self, response: json, data_type: str) -> ChartMeasurement:
+        chart_measurement = None
         # api = self._load_response(response)
         api = response
         try:
             labels, data = self._convert_data_for_chart(
                 api, data_type=data_type)
-            historic_measurement = HistoricMeasurement(
+            chart_measurement = ChartMeasurement(
                 labels=labels, datasets=data)
 
         except Exception as e:
             print(e)
 
-        return historic_measurement
+        return chart_measurement
 
     def map_standard_factor(self, response: json) -> StandardFactors:
         # response = self._load_response(response)
@@ -96,7 +96,7 @@ class ObjectMapper:
 
         set_color = 0
         for key, value in indexes_map.items():
-            datasets.append(ChartMeasurement(label=key, backgroundColor=color_list[set_color], data= value["data"]))
+            datasets.append(IndexMeasurement(label=key, backgroundColor=color_list[set_color], data= value["data"]))
             set_color += 1
 
 

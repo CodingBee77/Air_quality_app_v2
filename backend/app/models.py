@@ -8,15 +8,15 @@ class CurrentMeasurement(BaseModel):
     values: List[dict]
 
 
-class ChartMeasurement(BaseModel):
+class IndexMeasurement(BaseModel):
     label: str
     backgroundColor: str
     data: List[float]
 
 
-class HistoricMeasurement(BaseModel):
+class ChartMeasurement(BaseModel):
     labels: List[str]
-    datasets: List[ChartMeasurement]
+    datasets: List[IndexMeasurement]
 
 
 class StandardFactorMeasurement(BaseModel):
