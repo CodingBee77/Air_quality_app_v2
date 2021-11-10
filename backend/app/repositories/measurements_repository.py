@@ -1,7 +1,7 @@
 from app.models import CurrentMeasurement, ChartMeasurement, StandardFactors
 from app.mappers.obj_mapper import ObjectMapper
-import requests
 from app.config import settings
+from app.airly_client.client import AirlyClient
 
 API_RESPONSE = {
   "current": {
@@ -2370,21 +2370,14 @@ API_RESPONSE = {
   ]
 }
 
+
 class MeasurementRepository:
     def __init__(self):
         pass
 
-#TODO: create API client
-    #  def get_current_measurement_by_coordinates(self, lat: float, long: float) -> CurrentMeasurement:
-    #      mesurement_response = client.get_measurement(lat, lang)
-    #      current_meas = ObjectMapper.map_current_measurement(mesurement_response)
-    #      return current_meas
 
     def get_current_measurement_by_coordinates(self, lat: float, long: float) -> CurrentMeasurement:
-        # api_request = requests.get(
-        #     "https://airapi.airly.eu/v2/measurements/nearest?lat=" +
-        #     str(lat) + "&lng=" + str(long) + "&maxDistanceKM=2&maxResults=1",
-        #     headers={'apikey': settings.AIRLY_API_KEY})
+        # api_response = AirlyClient.get_measurement(lat, long)
         # print(api_request)
         api_response = API_RESPONSE
         mapper = ObjectMapper()
@@ -2393,21 +2386,16 @@ class MeasurementRepository:
 
 
     def get_chart_measurement_by_coordinates(self, lat: float, long: float, data_type: str) -> ChartMeasurement:
-        # api_request = requests.get(
-        #     "https://airapi.airly.eu/v2/measurements/nearest?lat=" +
-        #     str(lat) + "&lng=" + str(long) + "&maxDistanceKM=2&maxResults=1",
-        #     headers={'apikey': settings.AIRLY_API_KEY})
+          # api_response = AirlyClient.get_measurement(lat, long)
         api_response = API_RESPONSE
         # print(api_request)
         mapper = ObjectMapper()
         historic_measurement = mapper.map_chart_measurement(response=api_response, data_type=data_type)
         return historic_measurement
 
+
     def get_standards_by_coordinates(self, lat: float, long: float) -> StandardFactors:
-        # api_request = requests.get(
-        #     "https://airapi.airly.eu/v2/measurements/nearest?lat=" +
-        #     str(lat) + "&lng=" + str(long) + "&maxDistanceKM=2&maxResults=1",
-        #     headers={'apikey': settings.AIRLY_API_KEY})
+        # api_response = AirlyClient.get_measurement(lat, long)
         api_response = API_RESPONSE
         # print(api_request)
         mapper = ObjectMapper()
