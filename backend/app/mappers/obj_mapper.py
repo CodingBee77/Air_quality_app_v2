@@ -5,6 +5,7 @@ from typing import Tuple
 
 IGNORED_INDEXES = ("PRESSURE", "HUMIDITY", "TEMPERATURE")
 
+
 class ObjectMapper:
     def map_current_measurement(self, response: json) -> CurrentMeasurement:
         current_measurement = None
@@ -64,27 +65,19 @@ class ObjectMapper:
         for elem in values_object:
             index_name = elem.get("name")
             if index_name in IGNORED_INDEXES:
-                continue 
-            index_dict = { "label": index_name, "data": []}
+                continue
+            index_dict = {"label": index_name, "data": []}
             index_dicts[index_name] = index_dict
 
         return index_dicts
 
-    # def _get_index_value(self, index_name: str, values_list: list) -> float:
-    #     """Return value for PM1 or PM10 or PM25"""
-    #     index_value = [element["value"]
-    #                    for element in values_list if element["name"] == index_name]
-    #     return index_value[0]
-
-    # def _append_index_values_to_dict(self, index_object: dict, index_name: str, history_dict: dict) -> dict:
-    #     return index_object["data"].append(self._get_index_value(index_name=index_name, values_list=history_dict["values"]))
-
     def _convert_data_for_chart(self, api_response: dict, data_type: str) -> Tuple[list, list]:
         labels = []
         datasets = []
-        color_list = ["#51B8A9A8", "#e28743A8", "#25b836A8", "#1aadbaA8","#1a1abaA8"]
-        indexes_map = self._create_index_dict(api_response.get(data_type)[0]["values"])
-        
+        color_list = ["#51B8A9A8", "#e28743A8",
+                      "#25b836A8", "#1aadbaA8", "#1a1abaA8"]
+        indexes_map = self._create_index_dict(
+            api_response.get(data_type)[0]["values"])
 
         for elem in api_response.get(data_type):
             dt_obj_converted = elem["fromDateTime"][:16].replace("T", " ")
@@ -92,12 +85,13 @@ class ObjectMapper:
             for hist_value in elem["values"]:
                 if hist_value["name"] in IGNORED_INDEXES:
                     continue
-                indexes_map[hist_value["name"]]["data"].append(hist_value["value"])
+                indexes_map[hist_value["name"]]["data"].append(
+                    hist_value["value"])
 
         set_color = 0
         for key, value in indexes_map.items():
-            datasets.append(IndexMeasurement(label=key, backgroundColor=color_list[set_color], data= value["data"]))
+            datasets.append(IndexMeasurement(
+                label=key, backgroundColor=color_list[set_color], data=value["data"]))
             set_color += 1
-
 
         return labels, datasets
