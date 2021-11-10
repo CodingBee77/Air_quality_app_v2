@@ -8,8 +8,17 @@ docker-compose up --b
 ```
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
 
+To run tests:
+- run the project with docker-compose up
+- get inside the container:
+```
+docker exec -it air_quality_app_v2_backend_1 bash
+```
+- run all tests
+```
+python3 -m pytest
+```
 # Contribute
 TODO: Explain how other users and developers can contribute to make your code better. 
 
