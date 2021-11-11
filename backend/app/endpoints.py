@@ -6,25 +6,22 @@ from .repositories.measurements_repository import MeasurementRepository
 router = APIRouter()
 
 
-@router.get('/api/v1/measurements/current/')
-# response_model=models.CurrentMeasurement
+@router.get('/api/v1/measurements/current/', response_model=models.CurrentMeasurement)
 async def get_current_measurement_by_coordinates(lat: float, long: float):
-    # measurements_repository = MeasurementRepository()
-    # current_measurements = measurements_repository.get_current_measurement_by_coordinates(
-    #     lat, long)
-    return {"fromDateTime": "2018-08-24T08:24:48.652Z",
-            "tillDateTime": "2018-08-24T09:24:48.652Z",
-            "values": [
-                {"name": "PM1",          "value": 12.73},
-                {"name": "PM25",         "value": 18.7},
-                {"name": "PM10",         "value": 35.53},
-                {"name": "PRESSURE",     "value": 1012.62},
-                {"name": "HUMIDITY",     "value": 66.44},
-                {"name": "TEMPERATURE",  "value": 24.71}
-            ]}
-    # if current_measurements is None:
-    #     raise HTTPException(status_code=404, detail="Measurements not found")
-    # return current_measurements
+    measurements_repository = MeasurementRepository()
+    current_measurements = measurements_repository.get_current_measurement_by_coordinates(
+        lat, long)
+    # return {'from_date': '2021-10-18T09:06:35.404Z', 
+    # 'till_date': '2021-10-18T10:06:35.404Z', 
+    # 'values': [{'name': 'PM1', 'value': 16.66}, 
+    # {'name': 'PM25', 'value': 24.54}, 
+    # {'name': 'PM10', 'value': 39.67}, 
+    # {'name': 'PRESSURE', 'value': 1025.07}, 
+    # {'name': 'HUMIDITY', 'value': 91.12}, 
+    # {'name': 'TEMPERATURE', 'value': 8.51}]}
+    if current_measurements is None:
+        raise HTTPException(status_code=404, detail="Measurements not found")
+    return current_measurements
 
 
 @router.get('/api/v1/measurements/history/', response_model=models.ChartMeasurement)
@@ -58,5 +55,3 @@ async def get_standards_by_coordinates(lat: float, long: float):
         raise HTTPException(
             status_code=404, detail="Standards not found")
     return standard_factors
-
-
