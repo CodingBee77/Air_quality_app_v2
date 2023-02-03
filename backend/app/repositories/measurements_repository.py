@@ -1,7 +1,5 @@
-from app.models import CurrentMeasurement, ChartMeasurement, StandardFactors
 from app.mappers.obj_mapper import ObjectMapper
-from app.config import settings
-from app.airly_client.client import AirlyClient
+from app.models import CurrentMeasurement, ChartMeasurement, StandardFactors
 
 API_RESPONSE = {
   "current": {
